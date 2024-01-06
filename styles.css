@@ -1,0 +1,33 @@
+.table {
+    width: 80%;
+    margin: 20px auto;
+}
+
+section .table .txt-yellow {
+    background-color: #8B4513;
+    /* Коричневый */
+    color: #ffc107;
+    /* Золотисто-желтый */
+}
+
+.mh-logo {
+    margin: 0 0;
+}
+
+.logo {
+    max-height: 50px;
+    width: auto;
+}
+
+.img-landing {
+    width: 100%;
+    object-fit: cover;
+}
+
+.haha {
+    max-width: 75%;
+}
+
+.bi {
+    color:#8B4513;
+}
