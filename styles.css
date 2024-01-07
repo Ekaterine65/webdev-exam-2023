@@ -1,13 +1,19 @@
 .table {
-    width: 80%;
+    width: 85%;
     margin: 20px auto;
 }
 
 section .table .txt-yellow {
-    background-color: #8B4513;
-    /* Коричневый */
+    --bs-table-bg: #8B4513;
+    --bs-table-color: #ffc107;
+}
+
+.table-group-divider {
     color: #ffc107;
-    /* Золотисто-желтый */
+}
+
+.selected {
+    --bs-table-bg: #e9d0536b;
 }
 
 .mh-logo {
@@ -30,4 +36,8 @@ section .table .txt-yellow {
 
 .bi {
     color:#8B4513;
+}
+
+.max-h {
+    max-height: 300px;
 }
