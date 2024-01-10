@@ -1,8 +1,8 @@
-/* eslint-disable max-len */
 'use strict';
 
 const apiKey = '91a81dd3-2e9a-4632-aa35-773a38ebc39e';
 const apiUrl = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/routes';
+const UrlOrder = 'http://exam-2023-1-api.std-900.ist.mospolytech.ru/api/orders';
 
 const itemsPerPage = 10;
 let currentPage = 1;
@@ -19,7 +19,8 @@ let ageTo = 0;
 function showAlert(message, type) {
     const alertsContainer = document.querySelector('.alerts');
     const alertTemplate = document.getElementById('alert-template');
-    const alertElement = alertTemplate.content.firstElementChild.cloneNode(true);
+    const alertElement =
+        alertTemplate.content.firstElementChild.cloneNode(true);
     alertElement.classList.add(`alert-${type}`);
     alertElement.querySelector('.msg').textContent = message;
     alertsContainer.appendChild(alertElement);
@@ -41,7 +42,8 @@ function highlightRow(type, id) {
         dataId = 'guide';
     }
 
-    const selectedRow = document.getElementById(tableName).querySelector('.selected');
+    const selectedRow =
+        document.getElementById(tableName).querySelector('.selected');
     if (selectedRow) {
         selectedRow.classList.remove('selected');
         const selectedButton = selectedRow.querySelector('.btn');
@@ -149,7 +151,8 @@ function updatePage(pages) {
     const pageButtons = document.querySelectorAll('.pagination .page-item a');
     pageButtons.forEach(link => {
         const dataPageValue = link.getAttribute('data-page');
-        // Если значение совпадает с currentPage, добавляем класс 'active', иначе убираем класс 'active'
+        // Если значение совпадает с currentPage, 
+        //добавляем класс 'active', иначе убираем класс 'active'
         if (dataPageValue == currentPage) {
             link.classList.add('active');
         } else {
@@ -199,15 +202,18 @@ function DownloadData(page = 1) {
     fetch(URL, { method: 'GET' })
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Ошибка загрузки маршрутов: ${response.status}`);
+                throw new Error(`Ошибка загрузки маршрутов: 
+                ${response.status}`);
             }
             return response.json();
         })
         .then(data => {
 
             data.forEach(route => {
-                if ((obj == '' || route.mainObject.includes(obj)) && (q == '' || route.name.includes(q))) {
-                    if (i > (page - 1) * itemsPerPage && i <= page * itemsPerPage) {
+                if ((obj == '' || route.mainObject.includes(obj))
+                    && (q == '' || route.name.includes(q))) {
+                    if (i > (page - 1) * itemsPerPage
+                        && i <= page * itemsPerPage) {
                         drawRoutes(route);
                     }
                     i++;
@@ -261,6 +267,7 @@ landmarkSelect.addEventListener('change', function () {
     }
 });
 /* Обработчик ввода названия маршрута*/
+// eslint-disable-next-line max-len
 document.getElementById('routeName').addEventListener('input', function (event) {
     const searchQuery = event.target.value.trim();
     if (searchQuery === '') {
@@ -284,7 +291,9 @@ function drawGuides(guide) {
     newRow.dataset.guideId = guide.id;
 
     newRow.innerHTML = `
-        <th scope="row"><img class="logo" src="images/avatar${i}.png" alt="Изображение"></th>
+        <th scope="row">
+            <img class="logo" src="images/avatar${i}.png" alt="Изображение">
+        </th>
         <td class="guideName">${guide.name}</td>
         <td>${guide.language}</td>
         <td>${guide.workExperience}</td>
@@ -307,7 +316,8 @@ function populateLanguageFilter(data) {
     // Предположим, что в каждом объекте route есть поле languages
     data.forEach(guide => {
         const language = guide.language;
-        if (language && typeof language === 'string' && language.trim() !== '') {
+        if (language && typeof language === 'string'
+            && language.trim() !== '') {
             if (!uniqueLanguages.includes(language.trim())) {
                 uniqueLanguages.push(language.trim());
             }
@@ -341,7 +351,8 @@ function GetGuides(idRoute) {
     fetch(Url, { method: 'GET' })
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Ошибка загрузки маршрутов: ${response.status}`);
+                throw new Error(`Ошибка загрузки маршрутов: 
+                ${response.status}`);
             }
             return response.json();
         })
@@ -362,53 +373,62 @@ function GetGuides(idRoute) {
 }
 
 /* Обработчик выбора маршрута*/
-document.getElementById('tableRoutes').addEventListener('click', function (event) {
-    const target = event.target;
-    if (target.tagName === 'BUTTON' && target.classList.contains('btn-outline-secondary')) {
-        const row = target.closest('tr');
+document.getElementById('tableRoutes').addEventListener('click',
+    function (event) {
+        const target = event.target;
+        if (target.tagName === 'BUTTON'
+            && target.classList.contains('btn-outline-secondary')) {
+            const row = target.closest('tr');
 
-        // Сохранение в localStorage
-        const routeTitleValue = row.querySelector('.routeTitle').textContent;
-        const routeId = row.dataset.routeId;
-        localStorage.setItem('selectedRoute', JSON.stringify({ id: routeId, name: routeTitleValue }));
-        //Подсветка выбранной строки
-        highlightRow(0, routeId);
-        //Отображение таблицы
-        const hiddenSection = document.querySelector('.d-none');
-        if (hiddenSection) {
-            hiddenSection.classList.remove('d-none');
+            // Сохранение в localStorage
+            const routeTitleValue =
+                row.querySelector('.routeTitle').textContent;
+            const routeId = row.dataset.routeId;
+            localStorage.setItem('selectedRoute',
+                JSON.stringify({ id: routeId, name: routeTitleValue }));
+            //Подсветка выбранной строки
+            highlightRow(0, routeId);
+            //Отображение таблицы
+            const hiddenSection = document.querySelector('.d-none');
+            if (hiddenSection) {
+                hiddenSection.classList.remove('d-none');
+            }
+            //Добавление названия маршрута
+            const routeTitle = document.getElementById('routeTitle');
+            routeTitle.textContent =
+                `Доступные гиды по маршруту ${routeTitleValue}`;
+            GetGuides(routeId);
+            //Добавление данных в форму
+            document.getElementById('selectedRoute').value = routeTitleValue;
+
         }
-        //Добавление названия маршрута
-        const routeTitle = document.getElementById('routeTitle');
-        routeTitle.textContent = `Доступные гиды по маршруту ${routeTitleValue}`;
-        GetGuides(routeId);
-        //Добавление данных в форму
-        document.getElementById('selectedRoute').value = routeTitleValue;
-
-    }
-});
+    });
 /* Обработчик выбора гида*/
-document.getElementById('tableGuides').addEventListener('click', function (event) {
-    const target = event.target;
-    if (target.tagName === 'BUTTON' && target.classList.contains('btn-outline-secondary')) {
-        const row = target.closest('tr');
-        // Сохранение в localStorage
-        const guideNameValue = row.querySelector('.guideName').textContent;
-        const GuideId = row.dataset.guideId;
-        const guidePriceValue = row.querySelector('.pricePerHour').textContent;
-        localStorage.setItem('selectedGuide', JSON.stringify({ id: GuideId, name: guideNameValue, pricePerHour: guidePriceValue }));
-        //Подсветка выбранной строки
-        highlightRow(1, GuideId);
-        //Отображение кнопки заявки
-        const hiddenSection = document.querySelector('.d-none');
-        if (hiddenSection) {
-            hiddenSection.classList.remove('d-none');
-            hiddenSection.classList.add('d-flex');
+document.getElementById('tableGuides').addEventListener('click',
+    function (event) {
+        const target = event.target;
+        if (target.tagName === 'BUTTON'
+            && target.classList.contains('btn-outline-secondary')) {
+            const row = target.closest('tr');
+            // Сохранение в localStorage
+            const guideNameValue = row.querySelector('.guideName').textContent;
+            const GuideId = row.dataset.guideId;
+            const guidePriceValue =
+                row.querySelector('.pricePerHour').textContent;
+            // eslint-disable-next-line max-len
+            localStorage.setItem('selectedGuide', JSON.stringify({ id: GuideId, name: guideNameValue, pricePerHour: guidePriceValue }));
+            //Подсветка выбранной строки
+            highlightRow(1, GuideId);
+            //Отображение кнопки заявки
+            const hiddenSection = document.querySelector('.d-none');
+            if (hiddenSection) {
+                hiddenSection.classList.remove('d-none');
+                hiddenSection.classList.add('d-flex');
+            }
+            //Добавление данных в форму
+            document.getElementById('selectedGuide').value = guideNameValue;
         }
-        //Добавление данных в форму
-        document.getElementById('selectedGuide').value = guideNameValue;
-    }
-});
+    });
 
 const languageSelect = document.getElementById('language');
 languageSelect.addEventListener('change', function () {
@@ -472,7 +492,7 @@ const option1Checkbox = document.getElementById('option1');
 const option2Checkbox = document.getElementById('option2');
 const totalCostInput = document.getElementById('totalCost');
 
-function calculate () {
+function calculate() {
     // Получение значений из формы
     const excursionDate = new Date(excursionDateInput.value);
     const startTime = startTimeInput.value;
@@ -492,7 +512,8 @@ function calculate () {
     const hoursNumber = duration;
     const isThisDayOff = (dayOfWeek === 0 || dayOfWeek === 6) ? 1.5 : 1;
     const isItMorning = (startTime >= '09:00' && startTime < '12:00') ? 400 : 0;
-    const isItEvening = (startTime >= '20:00' && startTime < '23:00') ? 1000 : 0;
+    const isItEvening =
+        (startTime >= '20:00' && startTime < '23:00') ? 1000 : 0;
     let numberOfVisitorsCost;
     if (groupSize >= 1 && groupSize <= 5) {
         numberOfVisitorsCost = 0;
@@ -504,7 +525,8 @@ function calculate () {
         numberOfVisitorsCost = 0;
     }
 
-    let totalCost = guideServiceCost * hoursNumber * isThisDayOff + isItMorning + isItEvening + numberOfVisitorsCost;
+    let totalCost = guideServiceCost * hoursNumber * isThisDayOff +
+        isItMorning + isItEvening + numberOfVisitorsCost;
     if (isOption1Selected) {
         totalCost = totalCost * 0.85;
     }
@@ -515,9 +537,9 @@ function calculate () {
     if (startTime < '09:00' || startTime > '23:00') {
         showAlert(`Время начала экскурсии доступно с 9 до 23`, 'danger');
     } else if (groupSize < 1 || groupSize > 20) {
-        showAlert(`Количество человек в группе варьируется от 1 до 20`, 'danger');
+        showAlert(`Допустимое количество человек в группе 1 - 20`, 'danger');
     } else {
-        totalCostInput.value = totalCost.toFixed(2);
+        totalCostInput.value = totalCost.toFixed(0);
     }
 }
 
@@ -527,3 +549,49 @@ durationSelect.addEventListener('change', calculate);
 groupSizeInput.addEventListener('input', calculate);
 option1Checkbox.addEventListener('change', calculate);
 option2Checkbox.addEventListener('change', calculate);
+
+function sendOrderDataToServer() {
+    const formData = new FormData();
+    let guideId, routeId;
+    const storedGuide = localStorage.getItem('selectedGuide');
+    if (storedGuide) {
+        const Data = JSON.parse(storedGuide);
+        guideId = Data.id;
+    }
+
+    const storedRoute = localStorage.getItem('selectedRoute');
+    if (storedRoute) {
+        const Data = JSON.parse(storedRoute);
+        routeId = Data.id;
+    }
+    // Добавление параметров в объект FormData
+    formData.append('guide_id', guideId);
+    formData.append('route_id', routeId);
+    formData.append('date', excursionDateInput.value);
+    formData.append('time', startTimeInput.value);
+    formData.append('duration', durationSelect.value);
+    formData.append('persons', groupSizeInput.value);
+    formData.append('price', totalCostInput.value);
+    formData.append('optionFirst', option1Checkbox.checked ? 1 : 0);
+    formData.append('optionSecond', option2Checkbox.checked ? 1 : 0);
+
+    // Отправка данных на сервер
+    fetch(`${UrlOrder}?api_key=${apiKey}`, {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Ошибка отправки заказа: ${response.status}`);
+            }
+            showAlert('Заявка успешно отправлена!', 'success');
+        })
+        .catch(error => {
+            showAlert(`Ошибка отправки заказа: ${error.message}`, 'danger');
+        });
+}
+
+const sendButton = document.querySelector('.send');
+sendButton.addEventListener('click', function () {
+    sendOrderDataToServer();
+});
